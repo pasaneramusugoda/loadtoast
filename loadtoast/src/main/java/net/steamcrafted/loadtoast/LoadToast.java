@@ -2,6 +2,9 @@ package net.steamcrafted.loadtoast;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,8 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
  * Created by Wannes2 on 23/04/2015.
  */
 public class LoadToast {
+    private static final int SUCCESS = 712;
+    private static final int ERROR = 1;
 
     private String mText = "";
     private LoadToastView mView;
@@ -26,7 +31,7 @@ public class LoadToast {
     private boolean mToastCanceled = false;
     private boolean mInflated = false;
     private boolean mVisible = false;
-
+    private Handler mHandler;
 
     public LoadToast(Context context){
         mView = new LoadToastView(context);
@@ -49,6 +54,25 @@ public class LoadToast {
                 checkZPosition();
             }
         });
+
+        mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message message) {
+                switch (message.what) {
+                    case SUCCESS:
+                        mView.success();
+                        slideUp();
+                        break;
+                    case ERROR:
+                        mView.error();
+                        slideUp();
+                        break;
+                    default:
+                        slideUp();
+                        break;
+                }
+            }
+        };
     }
 
     public LoadToast setTranslationY(int pixels){
@@ -102,8 +126,7 @@ public class LoadToast {
             mToastCanceled = true;
             return;
         }
-        mView.success();
-        slideUp();
+        mHandler.obtainMessage(SUCCESS).sendToTarget();
     }
 
     public void error(){
@@ -111,8 +134,7 @@ public class LoadToast {
             mToastCanceled = true;
             return;
         }
-        mView.error();
-        slideUp();
+        mHandler.obtainMessage(ERROR).sendToTarget();
     }
 
     private void checkZPosition(){
