@@ -3,7 +3,6 @@ package net.steamcrafted.loadtoast;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,9 +11,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
@@ -22,8 +19,8 @@ import android.widget.ImageView;
 
 
 /**
-* Created by Wannes2 on 23/04/2015.
-*/
+ * Created by Wannes2 on 23/04/2015.
+ */
 public class LoadToastView extends ImageView {
 
     private String mText = "";
